@@ -83,9 +83,6 @@ public class Luhn {
 
       bufferMaskBits |= getCardNumberInBufferMask(buf);
     }
-
-    // TODO mask
-    System.out.print(buf);
   }
 
 }
