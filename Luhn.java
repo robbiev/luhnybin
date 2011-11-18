@@ -63,22 +63,21 @@ public class Luhn {
     int c = 0, bufferMaskBits = 0, bufidx = 0;
 
     char[] buf = new char[BUFFER_SIZE];
-    while ((c = stdin.read()) != -1 || bufidx < BUFFER_SIZE) {
+    int numRead = stdin.read(buf, 0, BUFFER_SIZE);
+    int maxBufferLeftOver = Math.max(numRead, BUFFER_SIZE);
+    while ((c = stdin.read()) != -1 || bufidx < maxBufferLeftOver) {
       if (c == -1)
         c = buf[bufidx++];
 
       boolean needsMasking = (bufferMaskBits & LEFTMOST_BIT) == LEFTMOST_BIT;
 
-      // rotate buffer
       bufferMaskBits <<= 1;
       char pop = leftShift(buf, (char) c);
 
-      if (pop != '\0') { // cheat to skip initial array
-        if (needsMasking && Character.isDigit(pop)) {
-          System.out.print(OUTPUT_MASK);
-        } else {
-          System.out.print(pop);
-        }
+      if (needsMasking && Character.isDigit(pop)) {
+        System.out.print(OUTPUT_MASK);
+      } else {
+        System.out.print(pop);
       }
 
       bufferMaskBits |= getCardNumberInBufferMask(buf);
