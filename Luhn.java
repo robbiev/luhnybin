@@ -1,7 +1,8 @@
-import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class Luhn {
   private static final int BUFFER_SIZE = 32;
@@ -60,7 +61,7 @@ public class Luhn {
 
   public static void main(String[] args) throws IOException {
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-    BufferedOutputStream out = new BufferedOutputStream(System.out);
+    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
     int c = 0, bufferMaskBits = 0, bufidx = 0;
 
     char[] buf = new char[BUFFER_SIZE];
