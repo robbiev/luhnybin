@@ -1,4 +1,4 @@
-
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -60,6 +60,7 @@ public class Luhn {
 
   public static void main(String[] args) throws IOException {
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+    BufferedOutputStream out = new BufferedOutputStream(System.out);
     int c = 0, bufferMaskBits = 0, bufidx = 0;
 
     char[] buf = new char[BUFFER_SIZE];
@@ -74,14 +75,15 @@ public class Luhn {
       char pop = leftShift(buf, (char) c);
 
       if (needsMasking && Character.isDigit(pop)) {
-        System.out.print(OUTPUT_MASK);
+        out.write(OUTPUT_MASK);
       } else {
-        System.out.print(pop);
+        out.write(pop);
       }
 
       bufferMaskBits |= getCardNumberInBufferMask(buf);
 
       if (bufidx == maxBufferLeftOver) {
+        out.flush();
         c = bufferMaskBits = bufidx = 0;
         maxBufferLeftOver= stdin.read(buf, 0, BUFFER_SIZE);
       }
