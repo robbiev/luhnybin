@@ -14,7 +14,7 @@ public class Luhn {
   private static char leftShift(char[] chars, char shiftIn) {
     char first = chars[0];
     for (int i = 1; i < BUFFER_SIZE; i++) {
-      chars[i-1] = chars[i];
+      chars[i - 1] = chars[i];
     }
     chars[BUFFER_SIZE - 1] = shiftIn;
     return first;
@@ -29,7 +29,7 @@ public class Luhn {
         numberSpan = 0, digitCount = 0, sum = 0;
 
     // TODO limit search based on previous results
-    for (int i = BUFFER_SIZE-1 ; i >=0 && digitCount < MAX_NUMBER_LENGTH;i--) {
+    for (int i = BUFFER_SIZE - 1; i >= 0 && digitCount < MAX_NUMBER_LENGTH; i--) {
       char currChar = buf[i];
 
       if (inCardNumber(currChar)) {
@@ -67,14 +67,14 @@ public class Luhn {
     char[] buf = new char[BUFFER_SIZE];
     int maxBufferLeftOver = stdin.read(buf, 0, BUFFER_SIZE);
     boolean ready = true;
-    while ((!ready && bufidx < maxBufferLeftOver) || (c = stdin.read()) != -1 ) {
+    while ((!ready && bufidx < maxBufferLeftOver) || (c = stdin.read()) != -1) {
       if (!ready)
         c = buf[bufidx++];
 
       boolean needsMasking = (bufferMaskBits & LEFTMOST_BIT) == LEFTMOST_BIT;
 
       bufferMaskBits <<= 1;
-      char pop = leftShift(buf, (char) c);
+      char pop = leftShift(buf, (char)c);
 
       if (needsMasking && Character.isDigit(pop)) {
         out.write(OUTPUT_MASK);
