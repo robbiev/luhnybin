@@ -25,7 +25,7 @@ public class Luhn {
   }
 
   private static int getCardNumberInBufferMask(char[] buf) {
-    int lastNumberSpan = 0, lastNumberStartIndex = -1,
+    int lastNumberSpan = 0, lastNumberStartIndex = 0,
         numberSpan = 0, digitCount = 0, sum = 0;
 
     // TODO limit search based on previous results
@@ -52,11 +52,7 @@ public class Luhn {
       numberSpan = digitCount = sum = 0;
     }
 
-    if (lastNumberStartIndex != -1) {
-      return (~0 << (32 - lastNumberSpan)) >>> lastNumberStartIndex;
-    }
-
-    return 0;
+    return ~(~0 << lastNumberSpan) << 32 - lastNumberSpan - lastNumberStartIndex;
   }
 
   public static void main(String[] args) throws IOException {
