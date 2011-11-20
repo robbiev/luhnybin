@@ -63,9 +63,8 @@ public class Luhn {
     int c = 0, bufferMaskBits = 0, bufidx = 0;
 
     char[] buf = new char[BUFFER_SIZE];
-    int numRead = stdin.read(buf, 0, BUFFER_SIZE);
-    int maxBufferLeftOver = Math.max(numRead, BUFFER_SIZE);
-    while ((c = stdin.read()) != -1 || bufidx < maxBufferLeftOver) {
+    int maxBufferLeftOver = stdin.read(buf, 0, BUFFER_SIZE);
+    while ((!stdin.ready() && bufidx < maxBufferLeftOver && (c = -1) == -1) || (c = stdin.read()) != -1 ) {
       if (c == -1)
         c = buf[bufidx++];
 
@@ -81,7 +80,11 @@ public class Luhn {
       }
 
       bufferMaskBits |= getCardNumberInBufferMask(buf);
+
+      if (bufidx == maxBufferLeftOver) {
+        c = bufferMaskBits = bufidx = 0;
+        maxBufferLeftOver= stdin.read(buf, 0, BUFFER_SIZE);
+      }
     }
   }
-
 }
