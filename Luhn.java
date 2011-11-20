@@ -66,8 +66,9 @@ public class Luhn {
 
     char[] buf = new char[BUFFER_SIZE];
     int maxBufferLeftOver = stdin.read(buf, 0, BUFFER_SIZE);
-    while ((!stdin.ready() && bufidx < maxBufferLeftOver && (c = -1) == -1) || (c = stdin.read()) != -1 ) {
-      if (c == -1)
+    boolean ready = true;
+    while ((!ready && bufidx < maxBufferLeftOver) || (c = stdin.read()) != -1 ) {
+      if (!ready)
         c = buf[bufidx++];
 
       boolean needsMasking = (bufferMaskBits & LEFTMOST_BIT) == LEFTMOST_BIT;
@@ -88,6 +89,8 @@ public class Luhn {
         c = bufferMaskBits = bufidx = 0;
         maxBufferLeftOver= stdin.read(buf, 0, BUFFER_SIZE);
       }
+
+      ready = stdin.ready();
     }
   }
 }
