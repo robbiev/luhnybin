@@ -24,7 +24,7 @@ public class Luhn {
     return c == ' ' || c == '-' || Character.isDigit(c);
   }
 
-  private static int getCardNumberInBufferMask(char[] buf) {
+  private static int getCardNumberMaskInBuffer(char[] buf) {
     int lastNumberSpan = 0, lastNumberStartIndex = 0,
         numberSpan = 0, digitCount = 0, sum = 0;
 
@@ -78,12 +78,12 @@ public class Luhn {
         out.write(pop);
       }
 
-      bufferMaskBits |= getCardNumberInBufferMask(buf);
+      bufferMaskBits |= getCardNumberMaskInBuffer(buf);
 
       if (bufidx == maxBufferLeftOver) {
         out.flush();
         c = bufferMaskBits = bufidx = 0;
-        maxBufferLeftOver= stdin.read(buf, 0, BUFFER_SIZE);
+        maxBufferLeftOver = stdin.read(buf, 0, BUFFER_SIZE);
       }
 
       ready = stdin.ready();
