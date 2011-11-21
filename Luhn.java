@@ -13,9 +13,7 @@ public class Luhn {
 
   private static char leftShift(char[] chars, char shiftIn) {
     char first = chars[0];
-    for (int i = 1; i < BUFFER_SIZE; i++) {
-      chars[i - 1] = chars[i];
-    }
+    System.arraycopy(chars, 1, chars, 0, BUFFER_SIZE - 1);
     chars[BUFFER_SIZE - 1] = shiftIn;
     return first;
   }
@@ -56,8 +54,8 @@ public class Luhn {
   }
 
   public static void main(String[] args) throws IOException {
-    BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+    BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in), 256);
+    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out), 256);
     int c = 0, bufferMaskBits = 0, bufidx = 0;
 
     char[] buf = new char[BUFFER_SIZE];
