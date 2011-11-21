@@ -29,14 +29,13 @@ public class Luhn {
     // TODO limit search based on previous results
     for (int i = BUFFER_SIZE - 1; i >= 0 && digitCount < MAX_NUMBER_LENGTH; i--) {
       char currChar = buf[i];
-
       if (inCardNumber(currChar)) {
         numberSpan++;
 
         if (Character.isDigit(currChar)) {
           digitCount++;
           int digit = Character.getNumericValue(currChar);
-          digit <<= digitCount % 2 == 0 ? 1 : 0;
+          digit <<= ~(digitCount & 1) & 1;
           sum += digit > 9 ? digit - 9 : digit;
 
           if ((digitCount >= MIN_NUMBER_LENGTH && digitCount <= MAX_NUMBER_LENGTH) && sum % 10 == 0) {
@@ -76,7 +75,8 @@ public class Luhn {
         out.write(pop);
       }
 
-      bufferMaskBits |= getCardNumberMaskInBuffer(buf);
+      if (Character.isDigit((char)c))
+        bufferMaskBits |= getCardNumberMaskInBuffer(buf);
 
       if (bufidx == maxBufferLeftOver) {
         out.flush();
